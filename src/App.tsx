@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { Product, ProductForm } from "./types/product";
 import {
   createProduct,
+  deleteProduct,
   getProducts,
   updateProduct,
 } from "./services/productService";
@@ -24,6 +25,12 @@ export default function App() {
       stock: 0,
       description: "",
     });
+  }
+
+  async function handleDelete(id: number) {
+    await deleteProduct(id);
+    const response = await getProducts();
+    setProducts(response.data);
   }
 
   function handleEdit(product: Product) {
@@ -126,7 +133,10 @@ export default function App() {
           </thead>
           <tbody>
             {products.map((product, i) => (
-              <tr className="bg-neutral-primary border-b border-default">
+              <tr
+                key={product.id}
+                className="bg-neutral-primary border-b border-default"
+              >
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-heading whitespace-nowrap"
@@ -138,21 +148,19 @@ export default function App() {
                 <td className="px-6 py-4">{product.price}</td>
                 <td className="px-6 py-4">{product.stock}</td>
                 <td className="px-4 py-2">
-                  <button
+                  <button className="mr-3 text-yellow-500"
                     onClick={() => {
                       handleEdit(product);
                     }}
                   >
                     Edit
                   </button>
-                </td>
-                <td className="px-4 py-2">
-                  <button
+                  <button className="text-red-500"
                     onClick={() => {
-                      handleEdit(product);
+                      handleDelete(product.id);
                     }}
                   >
-                    Edit
+                    Delete
                   </button>
                 </td>
               </tr>

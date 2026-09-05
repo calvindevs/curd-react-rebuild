@@ -16,7 +16,11 @@ export async function createProduct(data: ProductForm) {
   return response.data;
 }
 
-export async function updateProduct(id: number, data: ProductForm){
+export async function updateProduct(id: number, data: ProductForm) {
   const response = await api.put<Product>(`/products/${id}`, data);
+  return response.data;
+}
+export async function deleteProduct(id: number) {
+  const response = await api.delete<Product>(`/products/${id}`);
   return response.data;
 }
