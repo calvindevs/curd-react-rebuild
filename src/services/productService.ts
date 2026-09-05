@@ -15,3 +15,8 @@ export async function createProduct(data: ProductForm) {
   const response = await api.post<Product>("/products", data);
   return response.data;
 }
+
+export async function updateProduct(id: number, data: ProductForm){
+  const response = await api.put<Product>(`/products/${id}`, data);
+  return response.data;
+}
